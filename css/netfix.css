@@ -1,0 +1,10 @@
+.boxShot {
+	position: relative;
+}
+.boxShot .stbrMaskBg {
+	position: absolute;
+}
+
+.stbrMaskBg, .stbrMaskFg {
+	background-image: url('http://cdn-0.nflximg.com/en_us/layout/ratings/starbar_unified_density.png') !important;
+}

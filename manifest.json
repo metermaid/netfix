@@ -2,7 +2,7 @@
   "name": "Netfix",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "Fixes my following gripes with netflix: instant play, hiding star ratings, showing bad recommendations, and showing already rated items",
+  "description": "Fixes my following gripes with netflix: instant play, scrolling, hiding star ratings, showing bad recommendations, and showing already rated items",
   "homepage_url": "http://www.github.com/metermaid/netfix",
   "icons": {
     "16": "icons/icon16.png",
@@ -10,18 +10,21 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
-  "permissions": [
-    "tabs"
+  "web_accessible_resources": [
+        "js/jquery-2.0.3.min.map"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://*.netflix.com/*",
-        "https://*.netflix.ca/*"
-
+        "http://*.netflix.com/*",
+        "http://*.netflix.ca/*"
+      ],
+      "css": [
+        "css/netfix.css"
       ],
       "js": [
-        "src/inject/inject.js"
+        "js/jquery-2.0.3.min.js",
+        "js/netfix.js"
       ]
     }
   ]
