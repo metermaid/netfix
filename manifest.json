@@ -1,0 +1,28 @@
+{
+  "name": "Netfix",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Fixes my following gripes with netflix: instant play, hiding star ratings, showing bad recommendations, and showing already rated items",
+  "homepage_url": "http://www.github.com/metermaid/netfix",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "permissions": [
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.netflix.com/*",
+        "https://*.netflix.ca/*"
+
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}
