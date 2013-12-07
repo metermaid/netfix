@@ -17,7 +17,7 @@ function getRating(url,boxArt,callback) {
 
 function hideBadMovie(classes,boxArt) {
 		if (/sbmf-[01][0-9]|sbmf-2[0-5]/.test(classes)) {
-			boxArt.parent().hide();
+			boxArt.parent().remove();
 	}
 }
 
@@ -27,7 +27,7 @@ function hideSelfRated(classes,boxArt) {
 	}
 }
 
-function cleanUp() {
+function cleanUpPage() {
 	//not sure if I like this
 	$('.mrow:not(.characterRow) .slider').each(function(){
 		$(this).removeClass('triangleBtns');
@@ -49,17 +49,22 @@ function cleanUpURL(url) {
 	return url;
 }
 
-$(document).ready(function(){
-	// Remove all sliders in favour of plain ol' boxes
-	
-	cleanUp();
-
-	$('.agMovieSet a[href*=WiPlayer]').each(function(){
+function processNewLinks() {
+	$('.agMovieSet a:not(.checked)[href*=WiPlayer]').each(function(){
 		var url = cleanUpURL($(this).attr('href'));
+		$(this).addClass('checked');
 		$(this).attr('href',url);
 		$(this).css('background-image', 'none');
 		getRating(url,$(this).parent());
 	});
+}
+
+$(document).ready(function(){
+	// Remove all sliders in favour of plain ol' boxes
+	
+	cleanUpPage();
+	processInterval = window.setInterval(processNewLinks, 1000);
+
 	if (isHome || isKids) {
 		$('.mrow:not(.characterRow) .agMovieSet').each (function () {
     	$(this).addClass('truncated');
