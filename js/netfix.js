@@ -1,6 +1,7 @@
 var isHome = $('body').is('#page-WiHome');
-var isGenre = $('body').is('#page-WiGenre') || $('body').is('#page-WiAltGenre');
-var isRoleDisplay = $('body').is('#page-WiRoleDisplay');
+var isKids = $('body').is('#page-Kids');
+// var isGenre = $('body').is('#page-WiGenre') || $('body').is('#page-WiAltGenre');
+// var isRoleDisplay = $('body').is('#page-WiRoleDisplay');
 
 function getRating(url,boxArt,callback) {
 	$.get(url, function(data){
@@ -8,8 +9,7 @@ function getRating(url,boxArt,callback) {
 		var starbar = html.find('.starbar:first').find('span:first');
 		boxArt.append(starbar);
 		var classes = starbar.find('span').attr('class');
-		if (!isRoleDisplay)
-			hideBadMovie(classes,boxArt);
+		hideBadMovie(classes,boxArt);
 		if (isHome)
 			hideSelfRated(classes,boxArt);
 	});
@@ -27,10 +27,11 @@ function hideSelfRated(classes,boxArt) {
 	}
 }
 
-function cleanUpHome() {
+function cleanUp() {
 	//not sure if I like this
-	$('.slider').each(function(){
+	$('.mrow:not(.characterRow) .slider').each(function(){
 		$(this).removeClass('triangleBtns');
+		$('.sliderButton').remove();
 		$('.boxShotDivider').remove();
 		$(this).removeClass('slider');
 	});
@@ -51,32 +52,28 @@ function cleanUpURL(url) {
 $(document).ready(function(){
 	// Remove all sliders in favour of plain ol' boxes
 	
-	if (isHome) {
-		cleanUpHome();
-	}
+	cleanUp();
 
-	if (isHome || isGenre || isRoleDisplay) {
-		$('a[href*=WiPlayer]').each(function(){
-			var url = cleanUpURL($(this).attr('href'));
-			$(this).attr('href',url);
-			$(this).css('background-image', 'none');
-			getRating(url,$(this).parent());
+	$('.agMovieSet a[href*=WiPlayer]').each(function(){
+		var url = cleanUpURL($(this).attr('href'));
+		$(this).attr('href',url);
+		$(this).css('background-image', 'none');
+		getRating(url,$(this).parent());
+	});
+	if (isHome || isKids) {
+		$('.mrow:not(.characterRow) .agMovieSet').each (function () {
+    	$(this).addClass('truncated');
+    	$(this).after('<a href="#" class="toggleMovies">Show More</a>');
+    	$('.toggleMovies').unbind("click").click( function(e){
+    		e.preventDefault();
+    		$(this).prev('.agMovieSet').toggleClass('truncated');
+    		if ($(this).text() == "Show More")
+    			$(this).text("Hide More");
+    		else
+    			$(this).text("Show More");
+    	});
 		});
-		if (isHome) {
-			$('.agMovieSet').each (function () {
-	    	$(this).addClass('truncated');
-	    	$(this).after('<a href="#" class="toggleMovies">Show More</a>');
-	    	$('.toggleMovies').click( function(e){
-	    		e.preventDefault();
-	    		$(this).prev('.agMovieSet').toggleClass('truncated');
-	    		if ($(this).text() == "Show More")
-	    			$(this).text("Hide More");
-	    		else
-	    			$(this).text("Show More");
-	    	});
-			});
-		}
-		
 	}
+		
 
 });

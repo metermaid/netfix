@@ -6,7 +6,7 @@
 	margin: 3px 0 0 5px;
 }
 
-.stbrMaskBg, .stbrMaskFg {
+.agMovieSet .stbrMaskBg, .agMovieSet .stbrMaskFg {
 	background-image: url('http://cdn-0.nflximg.com/en_us/layout/ratings/starbar_unified_density.png') !important;
 }
 
@@ -24,7 +24,13 @@
 	margin: 10px auto 0;
 	cursor: pointer;
 }
-
+#page-Kids .characterRow .agMovieSet {
+	overflow: visible;
+	height: auto !important;
+}
+.characterRow .truncated {
+	max-height: 230px;
+}
 .truncated {
 	max-height: 250px;
 	overflow: hidden;
