@@ -3,8 +3,37 @@
 }
 .boxShot .stbrMaskBg {
 	position: absolute;
+	margin: 3px 0 0 5px;
 }
 
 .stbrMaskBg, .stbrMaskFg {
 	background-image: url('http://cdn-0.nflximg.com/en_us/layout/ratings/starbar_unified_density.png') !important;
+}
+
+.toggleMovies {
+	clear: both;
+	float: none;
+	display: block;
+	width: 30%;
+	background-color: #C01C00;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
+	line-height: 1;
+	padding: 7px 10px;
+	margin: 10px auto 0;
+	cursor: pointer;
+}
+
+.truncated {
+	max-height: 250px;
+	overflow: hidden;
+}
+
+div.evidence {
+	max-width: 166px;
+}
+
+div.recentlyWatched {
+	max-width: 166px;
 }
