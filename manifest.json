@@ -11,6 +11,9 @@
   },
   "default_locale": "en",
   "options_page": "options/index.html",
+  "permissions": [
+    "storage"
+  ],
   "web_accessible_resources": [
         "js/jquery-2.0.3.min.map"
   ],

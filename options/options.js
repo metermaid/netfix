@@ -1,18 +1,17 @@
+const storage = chrome.storage.sync;
 var defaultRating = "2.5";
 
-function toBool(str) {
-   if ("false" === str)
-      return false;
-   else 
-      return str;
-}
+document.addEventListener('DOMContentLoaded', loadOptions);
+document.querySelector('#save').addEventListener('click', saveOptions);
+document.querySelector('#erase').addEventListener('click', eraseOptions);
 
 function loadCheckbox(name) {
-  var value = localStorage[name];
-  if (value == undefined)
-    document.getElementById(name).checked = true;
-  else
-    document.getElementById(name).checked = toBool(value);
+  storage.get(name, function(o) { 
+    if (name in o)
+      document.getElementById(name).checked = o[name];
+    else
+      document.getElementById(name).checked = true;
+  });
 }
 
 function loadOptions() {
@@ -22,43 +21,46 @@ function loadOptions() {
 
   loadCheckbox("ratedMovies");
 
-  var hiddenRatings = localStorage["hiddenRatings"];
-  if (hiddenRatings == undefined)
-    hiddenRatings = defaultRating;
-
-  var select = document.getElementById("hiddenRatings");
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == hiddenRatings) {
-      child.selected = "true";
-      break;
+  storage.get("hiddenRatings", function(hiddenRatings) { 
+    value = hiddenRatings.hiddenRatings || defaultRating;
+    var select = document.getElementById("hiddenRatings");
+    for (var i = 0; i < select.children.length; i++) {
+      var child = select.children[i];
+      if (child.value == value) {
+        child.selected = "true";
+        break;
+      }
     }
-  }
+  });
+}
+
+function saveCheckbox(name) {
+  var a = new Object();
+  a[name] = document.getElementById(name).checked;
+  storage.set(a,function(){
+       chrome.extension.sendRequest({action: 'reload'});
+  });
 }
 
 function saveOptions() {
-  localStorage["noInstantPlay"] = document.getElementById("noInstantPlay").checked;
-  localStorage["hideSliders"] = document.getElementById("hideSliders").checked;
-  localStorage["displayRatings"] = document.getElementById("displayRatings").checked;
+  saveCheckbox("noInstantPlay");
+  saveCheckbox("hideSliders");
+  saveCheckbox("displayRatings");
 
-  localStorage["ratedMovies"] = document.getElementById("ratedMovies").checked;
+  saveCheckbox("ratedMovies");
 
   var select = document.getElementById("hiddenRatings");
   var hiddenRatings = select.children[select.selectedIndex].value;
-  localStorage["hiddenRatings"] = hiddenRatings;
-
-  alert("Options Saved.");
+  storage.set({"hiddenRatings": hiddenRatings},function(){
+    alert("Options Saved.");
+  });
 }
 
 function eraseOptions() {
-  localStorage.removeItem("noInstantPlay");
-  localStorage.removeItem("hideSliders");
-  localStorage.removeItem("displayRatings");
-  localStorage.removeItem("ratedMovies");
-  localStorage.removeItem("hiddenRatings");
+  storage.remove("noInstantPlay");
+  storage.remove("hideSliders");
+  storage.remove("displayRatings");
+  storage.remove("ratedMovies");
+  storage.remove("hiddenRatings");
   location.reload();
 }
-
-document.addEventListener('DOMContentLoaded', loadOptions);
-document.querySelector('#save').addEventListener('click', saveOptions);
-document.querySelector('#erase').addEventListener('click', eraseOptions);
