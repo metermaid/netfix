@@ -7,24 +7,36 @@ function getRating(url,boxArt,callback) {
 	$.get(url, function(data){
 		var html = jQuery('<div>').html(data);
 		var starbar = html.find('.starbar:first').find('span:first');
-		boxArt.append(starbar);
+		if (localStorage["displayRatings"] == undefined || localStorage["displayRatings"] == "true")
+			boxArt.append(starbar);
 		var classes = starbar.find('span').attr('class');
 		hideBadMovie(classes,boxArt);
-		if (isHome)
+		if (isHome && (localStorage["ratedMovies"] == undefined || localStorage["ratedMovies"] != "false"))
 			hideSelfRated(classes,boxArt);
 	});
 }
 
 function hideBadMovie(classes,boxArt) {
-		if (/sbmf-[01][0-9]|sbmf-2[0-5]/.test(classes)) {
+	if (localStorage["hiddenRatings"] == undefined || localStorage["hiddenRatings"] == "2.5")
+		if (/sbmf-[01][0-9]|sbmf-2[0-5]/.test(classes))
 			boxArt.parent().remove();
-	}
+	else if (localStorage["hiddenRatings"] == "2")
+		if (/sbmf-[01][0-9]/.test(classes))
+			boxArt.parent().remove();
+	else if (localStorage["hiddenRatings"] == "1.5")
+		if (/sbmf-[0][0-9]|sbmf-1[0-5]/.test(classes))
+			boxArt.parent().remove();
+	else if (localStorage["hiddenRatings"] == "1")
+		if (/sbmf-[0][0-9]/.test(classes))
+			boxArt.parent().remove();
+	else if (localStorage["hiddenRatings"] == "0.5")
+		if (/sbmf-0[0-5]/.test(classes))
+			boxArt.parent().remove();
 }
 
 function hideSelfRated(classes,boxArt) {
-		if (/sbmfrt/.test(classes)) {
-			boxArt.parent().hide();
-	}
+	if (/sbmfrt/.test(classes))
+		boxArt.parent().hide();
 }
 
 function cleanUpPage() {
@@ -53,7 +65,8 @@ function processNewLinks() {
 	$('.agMovieSet a:not(.checked)[href*=WiPlayer]').each(function(){
 		var url = cleanUpURL($(this).attr('href'));
 		$(this).addClass('checked');
-		$(this).attr('href',url);
+		if (localStorage["noInstantPlay"] == undefined || localStorage["noInstantPlay"] != "false")
+			$(this).attr('href',url);
 		$(this).css('background-image', 'none');
 		getRating(url,$(this).parent());
 	});
@@ -65,7 +78,7 @@ $(document).ready(function(){
 	cleanUpPage();
 	processInterval = window.setInterval(processNewLinks, 1000);
 
-	if (isHome || isKids) {
+	if ((isHome || isKids) && (localStorage["hideSliders"] == undefined || localStorage["hideSliders"] != "false")) {
 		$('.mrow:not(.characterRow) .agMovieSet').each (function () {
     	$(this).addClass('truncated');
     	$(this).after('<a href="#" class="toggleMovies">Show More</a>');
