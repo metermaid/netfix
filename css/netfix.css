@@ -1,16 +1,17 @@
-.boxShot {
+.boxShot, .lockup {
 	position: relative;
 }
-.boxShot .stbrMaskBg {
+.boxShot .stbrMaskBg, .lockup .stbrMaskBg {
 	position: absolute;
 	margin: 3px 0 0 5px;
 }
 
-.agMovieSet .stbrMaskBg, .agMovieSet .stbrMaskFg {
+.agMovieSet .stbrMaskBg, .agMovieSet .stbrMaskFg, .lockup .stbrMaskBg, .lockup .stbrMaskFg {
 	background-image: url('http://cdn-0.nflximg.com/en_us/layout/ratings/starbar_unified_density.png') !important;
 }
 
-.toggleMovies {
+
+.showMore {
 	clear: both;
 	float: none;
 	display: block;
@@ -24,6 +25,7 @@
 	margin: 10px auto 0;
 	cursor: pointer;
 }
+
 #page-Kids .characterRow .agMovieSet {
 	overflow: visible;
 	height: auto !important;
@@ -31,6 +33,13 @@
 .characterRow .truncated {
 	max-height: 230px;
 }
+
+.subset {
+	max-width: 100%;
+	max-height: 250px;
+	overflow: hidden;
+}
+
 .truncated {
 	max-height: 250px;
 	overflow: hidden;

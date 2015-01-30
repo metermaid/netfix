@@ -17,6 +17,7 @@ function loadCheckbox(name) {
 function loadOptions() {
   loadCheckbox("noInstantPlay");
   loadCheckbox("hideSliders");
+  loadCheckbox("hideBadMovies");
   loadCheckbox("displayRatings");
 
   loadCheckbox("ratedMovies");
@@ -46,6 +47,7 @@ function saveOptions() {
   saveCheckbox("noInstantPlay");
   saveCheckbox("hideSliders");
   saveCheckbox("displayRatings");
+  saveCheckbox("hideBadMovies");
 
   saveCheckbox("ratedMovies");
 
@@ -60,6 +62,7 @@ function eraseOptions() {
   storage.remove("noInstantPlay");
   storage.remove("hideSliders");
   storage.remove("displayRatings");
+  storage.remove("hideBadMovies");
   storage.remove("ratedMovies");
   storage.remove("hiddenRatings");
   location.reload();
